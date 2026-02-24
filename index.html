@@ -304,6 +304,161 @@
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3);
         }
 
+        /* Interactive Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg) scale(1.2);
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            font-size: 0.8rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .carousel-item:hover .zoom-hint {
+            opacity: 1;
+        }
+
+        /* Demo Cards Styles */
+        .demo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .badge-admin {
+            background: linear-gradient(45deg, #ef4444, #f87171);
+            color: white;
+        }
+
+        .badge-teacher {
+            background: linear-gradient(45deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .badge-student {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            color: white;
+        }
+
+        .credential-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .copy-btn:hover {
+            color: white;
+        }
+
+        .demo-link-btn {
+            background: linear-gradient(45deg, #7c3aed, #3b82f6);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            width: 100%;
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: opacity 0.3s;
+        }
+
+        .demo-link-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
         /* Responsive Fixes */
         @media (max-width: 768px) {
             .hero-section h1 {
@@ -386,9 +541,79 @@
                     class="btn btn-success btn-lg px-5 py-3 rounded-4 fw-bold shadow-lg">
                     <i class="fas fa-desktop me-2"></i> اطلب المنصة الآن
                 </a>
-                <a href="#features" class="btn btn-outline-light btn-lg px-5 py-3 rounded-4 fw-bold">
-                    شاهد المميزات
+                <a href="#demo" class="btn btn-outline-light btn-lg px-5 py-3 rounded-4 fw-bold">
+                    جرب المنصة الآن
                 </a>
+            </div>
+
+            <!-- Demo Access Section -->
+            <div id="demo" class="mt-5 pt-5 pb-5">
+                <h2 class="text-white mb-5 animate__animated animate__fadeInUp">جرب المنصة التعليمية مجاناً</h2>
+                <div class="row g-4 justify-content-center text-start">
+                    <!-- Admin Card -->
+                    <div class="col-md-4">
+                        <div class="demo-card">
+                            <span class="role-badge badge-admin"><i class="fas fa-user-shield me-1"></i> مدير
+                                النظام</span>
+                            <div class="credential-box">
+                                <span>admin@admin.com</span>
+                                <button class="copy-btn" onclick="copyText('admin@admin.com', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <div class="credential-box">
+                                <span>123456</span>
+                                <button class="copy-btn" onclick="copyText('123456', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <a href="http://smartlms.runasp.net/login?email=admin@admin.com&password=123456"
+                                target="_blank" class="btn demo-link-btn">
+                                <i class="fas fa-magic me-2"></i> دخول ذكي (مدير)
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Teacher Card -->
+                    <div class="col-md-4">
+                        <div class="demo-card">
+                            <span class="role-badge badge-teacher"><i class="fas fa-chalkboard-teacher me-1"></i>
+                                المعلم</span>
+                            <div class="credential-box">
+                                <span>t@t.com</span>
+                                <button class="copy-btn" onclick="copyText('t@t.com', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <div class="credential-box">
+                                <span>123456</span>
+                                <button class="copy-btn" onclick="copyText('123456', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <a href="http://smartlms.runasp.net/login?email=t@t.com&password=123456" target="_blank"
+                                class="btn demo-link-btn">
+                                <i class="fas fa-magic me-2"></i> دخول ذكي (معلم)
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Student Card -->
+                    <div class="col-md-4">
+                        <div class="demo-card">
+                            <span class="role-badge badge-student"><i class="fas fa-user-graduate me-1"></i>
+                                الطالب</span>
+                            <div class="credential-box">
+                                <span>s@s.com</span>
+                                <button class="copy-btn" onclick="copyText('s@s.com', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <div class="credential-box">
+                                <span>123456</span>
+                                <button class="copy-btn" onclick="copyText('123456', this)"><i
+                                        class="far fa-copy"></i></button>
+                            </div>
+                            <a href="http://smartlms.runasp.net/login?email=s@s.com&password=123456" target="_blank"
+                                class="btn demo-link-btn">
+                                <i class="fas fa-magic me-2"></i> دخول ذكي (طالب)
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Abstract Dashboard Visual -->
@@ -572,6 +797,9 @@
                                 <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="3"></button>
                                 <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="4"></button>
                                 <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="5"></button>
+                                <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="6"></button>
+                                <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="7"></button>
+                                <button type="button" data-bs-target="#adminCarousel" data-bs-slide-to="8"></button>
                             </div>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
@@ -617,6 +845,27 @@
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>تسجيل الدخول</h5>
                                         <p>واجهة دخول آمنة وسهلة الاستخدام</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="المدير/العمليات المالية.PNG" class="d-block w-100" alt="العمليات المالية">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>العمليات المالية</h5>
+                                        <p>تتبع مفصل لكافة الحركات المالية والاشتراكات</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="المدير/كشف حساب طالب.PNG" class="d-block w-100" alt="كشف حساب طالب">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>كشف حساب طالب</h5>
+                                        <p>مراجعة تقيددات الطالب المالية وتاريخ الشحن</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="المدير/كشف حساب معلم.PNG" class="d-block w-100" alt="كشف حساب معلم">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5>كشف حساب معلم</h5>
+                                        <p>بيان تفصيلي بأرباح المعلم والمبالغ المستحقة</p>
                                     </div>
                                 </div>
                             </div>
@@ -883,11 +1132,46 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Lightbox Overlay -->
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" src="" class="lightbox-content">
+    </div>
+
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom JS -->
     <script>
+        // Lightbox Logic
+        function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Disable scroll
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // Enable scroll
+        }
+
+        // Add click events to images for zoom
+        document.querySelectorAll('.carousel-item img').forEach(img => {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', function () {
+                openLightbox(this.src);
+            });
+
+            // Add hint
+            const hint = document.createElement('div');
+            hint.className = 'zoom-hint';
+            hint.innerHTML = '<i class="fas fa-search-plus"></i> انقر للتكبير';
+            img.parentElement.appendChild(hint);
+        });
+
         // Navbar scroll effect
         window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');
@@ -928,6 +1212,17 @@
 
             content.classList.remove('d-none');
             mockup.classList.remove('d-none');
+        }
+
+        // Copy context
+        function copyText(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalIcon = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check text-success"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = originalIcon;
+                }, 2000);
+            });
         }
     </script>
 </body>
